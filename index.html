@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>COMPANY NAME HERE — Precision HSS Tools</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Serif+Display&display=swap" rel="stylesheet"/>
+  <style>
+    /* ─── RESET & BASE ─── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --white:   #ffffff;
+      --bg:      #f5f6f8;
+      --mid:     #eef0f4;
+      --panel:   #ffffff;
+      --dark:    #111827;
+      --accent:  #1a56db;
+      --accent2: #e85d20;
+      --text:    #1f2937;
+      --muted:   #6b7280;
+      --border:  #e5e7eb;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--white);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 400;
+      overflow-x: hidden;
+    }
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
+
+    /* ─── SCROLLBAR ─── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 3px; }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 4rem;
+      height: 72px;
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.4rem;
+      letter-spacing: 0px;
+      color: var(--dark);
+    }
+    .nav-links { display: flex; gap: 2.5rem; }
+    .nav-links a {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 500;
+      letter-spacing: 0.3px;
+      color: var(--muted);
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--accent); }
+    .nav-cta {
+      background: var(--accent);
+      color: #fff !important;
+      padding: 0.5rem 1.4rem;
+      border-radius: 6px;
+      font-weight: 600 !important;
+    }
+    .nav-cta:hover { background: #1648c0 !important; color: #fff !important; }
+
+    /* ─── HERO ─── */
+    #hero {
+      position: relative; min-height: 100vh;
+      display: flex; align-items: center;
+      padding: 0 4rem;
+      overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute; inset: 0; z-index: 0;
+      background:
+        radial-gradient(ellipse 55% 55% at 75% 50%, rgba(26,86,219,0.07) 0%, transparent 70%),
+        radial-gradient(ellipse 35% 35% at 15% 75%, rgba(232,93,32,0.05) 0%, transparent 60%),
+        linear-gradient(160deg, #ffffff 0%, #f0f4ff 100%);
+    }
+    .hero-grid {
+      position: absolute; inset: 0; z-index: 0; opacity: 0.5;
+      background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+    .hero-content { position: relative; z-index: 1; max-width: 700px; }
+    .hero-tag {
+      display: inline-flex; align-items: center; gap: 0.6rem;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.78rem; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 1.5rem;
+    }
+    .hero-tag::before {
+      content: ''; display: block; width: 32px; height: 2px; background: var(--accent);
+    }
+    h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(3rem, 7vw, 6rem);
+      line-height: 1.05;
+      letter-spacing: -1px;
+      color: var(--dark);
+      margin-bottom: 1.5rem;
+    }
+    h1 span { color: var(--accent); }
+    .hero-desc {
+      font-size: 1.05rem; line-height: 1.75; font-weight: 400;
+      color: var(--muted); max-width: 500px; margin-bottom: 2.5rem;
+    }
+    .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 0.6rem;
+      background: var(--accent); color: #fff;
+      padding: 0.85rem 2rem; font-family: 'DM Sans', sans-serif;
+      font-size: 0.92rem; font-weight: 600; letter-spacing: 0.3px;
+      border-radius: 8px;
+      transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 4px 14px rgba(26,86,219,0.25);
+    }
+    .btn-primary:hover { background: #1648c0; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(26,86,219,0.35); }
+    .btn-secondary {
+      display: inline-flex; align-items: center; gap: 0.6rem;
+      border: 1.5px solid var(--border); color: var(--text);
+      padding: 0.85rem 2rem; font-family: 'DM Sans', sans-serif;
+      font-size: 0.92rem; font-weight: 500; border-radius: 8px;
+      transition: border-color 0.2s, color 0.2s, background 0.2s;
+    }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); background: rgba(26,86,219,0.04); }
+    .hero-stats {
+      position: absolute; right: 4rem; bottom: 6rem; z-index: 1;
+      display: flex; flex-direction: column; gap: 2rem;
+    }
+    .stat { text-align: right; }
+    .stat-num {
+      font-family: 'DM Serif Display', serif;
+      font-size: 2.8rem; color: var(--accent); line-height: 1;
+    }
+    .stat-label {
+      font-family: 'DM Sans', sans-serif; font-weight: 500;
+      font-size: 0.72rem; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted);
+    }
+    .scroll-hint {
+      position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+      font-family: 'DM Sans', sans-serif; font-weight: 500;
+      font-size: 0.72rem; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted);
+      z-index: 1;
+    }
+    .scroll-line {
+      width: 1px; height: 48px; background: linear-gradient(var(--accent), transparent);
+      animation: scrollPulse 2s ease-in-out infinite;
+    }
+    @keyframes scrollPulse { 0%,100%{opacity:0.4} 50%{opacity:1} }
+
+    /* ─── SECTION BASE ─── */
+    section { position: relative; z-index: 1; }
+    .section-inner { max-width: 1200px; margin: 0 auto; padding: 6rem 4rem; }
+    .section-tag {
+      font-family: 'DM Sans', sans-serif; font-weight: 600;
+      font-size: 0.72rem; letter-spacing: 2px; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 1rem;
+      display: flex; align-items: center; gap: 0.6rem;
+    }
+    .section-tag::before { content:''; width:24px; height:2px; background:var(--accent); }
+    h2 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+      letter-spacing: -0.5px; color: var(--dark); margin-bottom: 1rem;
+    }
+    .divider { width: 60px; height: 3px; background: var(--accent); margin: 1.5rem 0 2.5rem; border-radius: 2px; }
+
+    /* ─── ABOUT ─── */
+    #about { background: var(--mid); }
+    .about-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center;
+    }
+    .about-text p {
+      font-size: 1rem; line-height: 1.85; color: var(--muted); margin-bottom: 1.2rem;
+    }
+    .about-features { display: flex; flex-direction: column; gap: 1rem; margin-top: 2rem; }
+    .feature-item {
+      display: flex; align-items: flex-start; gap: 1rem;
+      padding: 1rem 1.2rem;
+      border: 1.5px solid var(--border); background: var(--white);
+      border-radius: 10px;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .feature-item:hover { border-color: var(--accent); box-shadow: 0 4px 16px rgba(26,86,219,0.08); }
+    .feature-icon {
+      width: 36px; height: 36px; flex-shrink: 0;
+      background: rgba(26,86,219,0.1); color: var(--accent);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem; border-radius: 8px;
+    }
+    .feature-title { font-family: 'DM Sans', sans-serif; font-weight: 600; font-size: 1rem; margin-bottom: 0.2rem; color: var(--dark); }
+    .feature-desc { font-size: 0.85rem; color: var(--muted); line-height: 1.5; }
+    .about-visual {
+      position: relative; padding: 2rem;
+      border: 1.5px solid var(--border); border-radius: 12px;
+      background: var(--white); box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+    }
+    .about-visual::before {
+      content: ''; position: absolute; top: -1px; left: 2rem; right: 2rem;
+      height: 3px; background: var(--accent); border-radius: 0 0 4px 4px;
+    }
+    .spec-table { width: 100%; border-collapse: collapse; }
+    .spec-table tr { border-bottom: 1px solid var(--border); }
+    .spec-table tr:last-child { border-bottom: none; }
+    .spec-table td { padding: 0.85rem 0.5rem; font-size: 0.9rem; }
+    .spec-table td:first-child { color: var(--muted); font-weight: 500; }
+    .spec-table td:last-child { color: var(--dark); font-weight: 600; text-align: right; }
+
+    /* ─── PRODUCTS ─── */
+    #products { background: var(--white); }
+    .products-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 3rem; }
+    .products-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+    .product-card {
+      background: var(--white);
+      border: 1.5px solid var(--border);
+      padding: 2rem; border-radius: 12px;
+      cursor: pointer;
+      transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+      position: relative; overflow: hidden;
+    }
+    .product-card::after {
+      content: ''; position: absolute; bottom: 0; left: 0; right: 0;
+      height: 3px; background: var(--accent); transform: scaleX(0);
+      transform-origin: left; transition: transform 0.3s; border-radius: 0 0 12px 12px;
+    }
+    .product-card:hover { border-color: rgba(26,86,219,0.3); transform: translateY(-4px); box-shadow: 0 12px 32px rgba(26,86,219,0.1); }
+    .product-card:hover::after { transform: scaleX(1); }
+    .product-icon {
+      width: 52px; height: 52px;
+      background: rgba(26,86,219,0.08); color: var(--accent);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem; margin-bottom: 1.5rem; border-radius: 12px;
+    }
+    .product-name {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 1.1rem; font-weight: 700; color: var(--dark);
+      margin-bottom: 0.4rem;
+    }
+    .product-sub {
+      font-size: 0.78rem; color: var(--accent); font-weight: 600;
+      letter-spacing: 1px; text-transform: uppercase; margin-bottom: 1rem;
+    }
+    .product-desc { font-size: 0.88rem; color: var(--muted); line-height: 1.6; margin-bottom: 1.5rem; }
+    .product-specs { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .spec-tag {
+      font-family: 'DM Sans', sans-serif; font-weight: 500;
+      font-size: 0.72rem; letter-spacing: 0.3px;
+      padding: 0.25rem 0.75rem; border-radius: 20px;
+      background: var(--bg); border: 1px solid var(--border); color: var(--muted);
+    }
+
+    /* ─── ORDER / QUOTE ─── */
+    #quote { background: var(--mid); }
+    .quote-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; }
+    .form-group { margin-bottom: 1.2rem; }
+    label {
+      display: block; font-family: 'DM Sans', sans-serif;
+      font-size: 0.78rem; font-weight: 600; letter-spacing: 0.5px;
+      color: var(--dark); margin-bottom: 0.4rem;
+    }
+    input, select, textarea {
+      width: 100%; background: var(--white);
+      border: 1.5px solid var(--border); color: var(--text);
+      padding: 0.8rem 1rem; font-family: 'DM Sans', sans-serif;
+      font-size: 0.95rem; outline: none; border-radius: 8px;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    input:focus, select:focus, textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(26,86,219,0.1); }
+    select option { background: var(--white); }
+    textarea { resize: vertical; min-height: 120px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .quote-info { display: flex; flex-direction: column; gap: 1.5rem; }
+    .info-card {
+      padding: 1.5rem; border: 1.5px solid var(--border); border-radius: 12px;
+      background: var(--white); display: flex; gap: 1rem; align-items: flex-start;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .info-card:hover { border-color: var(--accent); box-shadow: 0 4px 16px rgba(26,86,219,0.08); }
+    .info-icon {
+      width: 40px; height: 40px; flex-shrink: 0;
+      background: rgba(26,86,219,0.08); color: var(--accent);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem; border-radius: 10px;
+    }
+    .info-title { font-family: 'DM Sans', sans-serif; font-weight: 600; color: var(--dark); margin-bottom: 0.2rem; }
+    .info-text { font-size: 0.85rem; color: var(--muted); line-height: 1.5; }
+    .info-text a { color: var(--accent); font-weight: 500; }
+
+    /* ─── SHOP ─── */
+    #shop { background: var(--bg); }
+    .shop-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.2rem; }
+    .shop-card {
+      background: var(--white); border: 1.5px solid var(--border); border-radius: 12px;
+      overflow: hidden; transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+    }
+    .shop-card:hover { border-color: rgba(26,86,219,0.3); transform: translateY(-3px); box-shadow: 0 8px 24px rgba(26,86,219,0.09); }
+    .shop-img {
+      height: 160px; background: var(--mid);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 3rem;
+      border-bottom: 1px solid var(--border);
+      position: relative; overflow: hidden;
+    }
+    .shop-img::before {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(26,86,219,0.04) 0%, transparent 60%);
+    }
+    .shop-body { padding: 1.2rem; }
+    .shop-name { font-family: 'DM Sans', sans-serif; font-weight: 700; font-size: 1rem; color: var(--dark); margin-bottom: 0.2rem; }
+    .shop-variant { font-size: 0.78rem; color: var(--muted); margin-bottom: 0.8rem; }
+    .shop-price { font-family: 'DM Serif Display', serif; font-size: 1.4rem; color: var(--accent); }
+    .shop-add {
+      margin-top: 0.8rem; width: 100%;
+      background: transparent; border: 1.5px solid var(--border); color: var(--muted);
+      padding: 0.5rem; font-family: 'DM Sans', sans-serif; border-radius: 6px;
+      font-size: 0.82rem; font-weight: 600;
+      cursor: pointer; transition: all 0.2s;
+    }
+    .shop-add:hover { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: var(--dark);
+      border-top: 1px solid rgba(255,255,255,0.08);
+      padding: 3rem 4rem;
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 1.5rem;
+    }
+    .footer-logo { font-family: 'DM Serif Display', serif; font-size: 1.4rem; color: #fff; }
+    .footer-links { display: flex; gap: 2rem; flex-wrap: wrap; }
+    .footer-links a {
+      font-family: 'DM Sans', sans-serif; font-weight: 500;
+      font-size: 0.85rem; color: rgba(255,255,255,0.45);
+      transition: color 0.2s;
+    }
+    .footer-links a:hover { color: #fff; }
+    .footer-copy { font-size: 0.8rem; color: rgba(255,255,255,0.3); }
+
+    /* ─── ANIMATIONS ─── */
+    .fade-up {
+      opacity: 0; transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 900px) {
+      nav { padding: 0 1.5rem; }
+      .nav-links { display: none; }
+      #hero { padding: 0 1.5rem; }
+      .hero-stats { display: none; }
+      .section-inner { padding: 4rem 1.5rem; }
+      .about-grid, .quote-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .products-grid { grid-template-columns: 1fr 1fr; }
+      .shop-grid { grid-template-columns: 1fr 1fr; }
+      footer { padding: 2rem 1.5rem; }
+    }
+    @media (max-width: 540px) {
+      .products-grid, .shop-grid { grid-template-columns: 1fr; }
+      .form-row { grid-template-columns: 1fr; }
+    }
+
+    /* light theme overrides */
+    #products h2, #shop h2 { color: var(--dark); }
+    #hero h2 { color: var(--dark); }
+  </style>
+</head>
+<body>
+
+<!-- ════════════════════════════════
+     NAV
+════════════════════════════════ -->
+<nav>
+  <div class="nav-logo">SECO PUNCHES</div> <!-- ✏️ EDIT: Your company name -->
+  <div class="nav-links">
+    <a href="#about">About</a>
+    <a href="#products">Products</a>
+    <a href="#shop">Shop</a>
+    <a href="#quote">Get Quote</a>
+    <a href="#quote" class="nav-cta">Contact Us</a>
+  </div>
+</nav>
+
+
+<!-- ════════════════════════════════
+     HERO
+════════════════════════════════ -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <div class="hero-tag">High Speed Steel · Precision Tools</div> <!-- ✏️ EDIT: tagline/category -->
+    <h1>
+      PRECISION<br>
+      <span>PUNCHES</span><br>
+      &amp; PINS
+    </h1>
+    <p class="hero-desc">
+      <!-- ✏️ EDIT: Your company description -->
+      Manufacturer of high-performance HSS punches, dowel pins, and precision tooling for industrial applications. Built to exact tolerances. Made to last.
+    </p>
+    <div class="hero-btns">
+      <a href="#products" class="btn-primary">View Products ↓</a>
+      <a href="#quote" class="btn-secondary">Request a Quote</a>
+    </div>
+  </div>
+  <div class="hero-stats">
+    <!-- ✏️ EDIT: Replace with your real stats -->
+    <div class="stat">
+      <div class="stat-num">20+</div>
+      <div class="stat-label">Years Experience</div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-num">ISO</div>
+      <div class="stat-label">Certified</div>
+    </div>
+  </div>
+  <div class="scroll-hint">
+    <div class="scroll-line"></div>
+    Scroll
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════
+     ABOUT
+════════════════════════════════ -->
+<section id="about">
+  <div class="section-inner">
+    <div class="about-grid">
+      <div class="about-text fade-up">
+        <div class="section-tag">Who We Are</div>
+        <h2>BUILT ON PRECISION.<br>DRIVEN BY QUALITY.</h2>
+        <div class="divider"></div>
+        <!-- ✏️ EDIT: Your about paragraphs -->
+        <p>We specialize in the manufacture of high speed steel (HSS) punches and dowel pins engineered to the tightest tolerances. Every tool we produce goes through rigorous quality checks before it leaves our facility.</p>
+        <p>From standard catalogued items to fully custom specifications, we serve clients across tooling, die-making, automotive, and engineering sectors.</p>
+        <div class="about-features">
+          <!-- ✏️ EDIT: Your key features/advantages -->
+          <div class="feature-item">
+            <div class="feature-icon">⚙️</div>
+            <div>
+              <div class="feature-title">Custom Specifications</div>
+              <div class="feature-desc">Any diameter, length, or tolerance you need — we manufacture to your exact drawing.</div>
+            </div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-icon">🔩</div>
+            <div>
+              <div class="feature-title">Premium HSS Material</div>
+              <div class="feature-desc">All tools made from M2/M35 high speed steel for superior hardness and heat resistance.</div>
+            </div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-icon">🚚</div>
+            <div>
+              <div class="feature-title">Fast Dispatch</div>
+              <div class="feature-desc">Standard items dispatched within 2–3 business days. Bulk orders on schedule.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="about-visual fade-up">
+        <table class="spec-table">
+          <!-- ✏️ EDIT: Your material / spec data -->
+          <tr><td>Material Grade</td><td>M2, M35 HSS</td></tr>
+          <tr><td>Hardness (HRC)</td><td>62–65</td></tr>
+          <tr><td>Coating Options</td><td>TiN, TiCN, Uncoated</td></tr>
+          <tr><td>Diameter Range</td><td>0.5mm – 50mm</td></tr>
+          <tr><td>Length Range</td><td>Custom / Std</td></tr>
+          <tr><td>Tolerance</td><td>h6 / h5 / Custom</td></tr>
+          <tr><td>Surface Finish</td><td>Ground & Polished</td></tr>
+          <tr><td>Certifications</td><td>ISO 9001:2015</td></tr> <!-- ✏️ EDIT -->
+          <tr><td>MOQ</td><td>As low as 1 pc</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════
+     PRODUCTS
+════════════════════════════════ -->
+<section id="products">
+  <div class="section-inner">
+    <div class="products-header fade-up">
+      <div>
+        <div class="section-tag">What We Make</div>
+        <h2>OUR PRODUCT RANGE</h2>
+      </div>
+      <a href="#shop" class="btn-secondary">Browse Full Catalog →</a>
+    </div>
+    <div class="products-grid">
+
+      <!-- ✏️ EDIT CARD 1 -->
+      <div class="product-card fade-up">
+        <div class="product-icon">🔧</div>
+        <div class="product-name">Pilot Punches</div>
+        <div class="product-sub">HSS M2 / M35</div>
+        <p class="product-desc">Precision-ground pilot punches for progressive dies. Available in standard and custom lengths.</p>
+        <div class="product-specs">
+          <span class="spec-tag">Ø 1–30mm</span>
+          <span class="spec-tag">h6 Tolerance</span>
+          <span class="spec-tag">TiN Coated</span>
+        </div>
+      </div>
+
+      <!-- ✏️ EDIT CARD 2 -->
+      <div class="product-card fade-up">
+        <div class="product-icon">⚡</div>
+        <div class="product-name">Blanking Punches</div>
+        <div class="product-sub">HSS M2 / M35</div>
+        <p class="product-desc">High-impact blanking punches for heavy-duty stamping operations with superior edge retention.</p>
+        <div class="product-specs">
+          <span class="spec-tag">Ø 2–50mm</span>
+          <span class="spec-tag">HRC 62–65</span>
+          <span class="spec-tag">Custom Shapes</span>
+        </div>
+      </div>
+
+      <!-- ✏️ EDIT CARD 3 -->
+      <div class="product-card fade-up">
+        <div class="product-icon">📏</div>
+        <div class="product-name">Dowel Pins</div>
+        <div class="product-sub">HSS / EN31</div>
+        <p class="product-desc">Ground dowel pins with tight h6/h5 tolerance for precision alignment in dies and fixtures.</p>
+        <div class="product-specs">
+          <span class="spec-tag">Ø 1–25mm</span>
+          <span class="spec-tag">h5 / h6</span>
+          <span class="spec-tag">Mirror Finish</span>
+        </div>
+      </div>
+
+      <!-- ✏️ EDIT CARD 4 -->
+      <div class="product-card fade-up">
+        <div class="product-icon">🎯</div>
+        <div class="product-name">Forming Punches</div>
+        <div class="product-sub">HSS M2</div>
+        <p class="product-desc">Complex forming punch profiles manufactured to your drawing for deep-draw and bending dies.</p>
+        <div class="product-specs">
+          <span class="spec-tag">Custom Profile</span>
+          <span class="spec-tag">DXF/PDF Input</span>
+        </div>
+      </div>
+
+      <!-- ✏️ EDIT CARD 5 -->
+      <div class="product-card fade-up">
+        <div class="product-icon">🔩</div>
+        <div class="product-name">Shoulder Punches</div>
+        <div class="product-sub">HSS M35</div>
+        <p class="product-desc">Standard shoulder punches with stepped shank for quick-change punch holders. Multiple head styles.</p>
+        <div class="product-specs">
+          <span class="spec-tag">Std & Custom</span>
+          <span class="spec-tag">Quick-Change</span>
+        </div>
+      </div>
+
+      <!-- ✏️ EDIT CARD 6 -->
+      <div class="product-card fade-up">
+        <div class="product-icon">✳️</div>
+        <div class="product-name">Special Punches</div>
+        <div class="product-sub">Any Grade</div>
+        <p class="product-desc">Non-standard shapes: oblong, D-shape, hexagonal, or any profile from your technical drawing.</p>
+        <div class="product-specs">
+          <span class="spec-tag">Any Shape</span>
+          <span class="spec-tag">DXF Welcome</span>
+          <span class="spec-tag">Low MOQ</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════
+     SHOP
+════════════════════════════════ -->
+<section id="shop">
+  <div class="section-inner">
+    <div class="fade-up" style="margin-bottom:3rem;">
+      <div class="section-tag">Order Online</div>
+      <h2>STANDARD STOCK ITEMS</h2>
+      <p style="color:var(--muted);max-width:520px;margin-top:0.5rem;line-height:1.7;font-size:0.95rem;">
+        Common sizes available for immediate dispatch. For custom sizes, use the Quote form below.
+      </p>
+    </div>
+    <div class="shop-grid">
+
+      <!-- ✏️ EDIT EACH SHOP CARD: name, variant, price -->
+      <div class="shop-card fade-up">
+        <div class="shop-img">🔧</div>
+        <div class="shop-body">
+          <div class="shop-name">Pilot Punch</div>
+          <div class="shop-variant">Ø 3mm × 50mm · HSS M2</div>
+          <div class="shop-price">₹ 00.00</div> <!-- ✏️ EDIT price -->
+          <button class="shop-add">Add to Enquiry</button>
+        </div>
+      </div>
+
+      <div class="shop-card fade-up">
+        <div class="shop-img">🔧</div>
+        <div class="shop-body">
+          <div class="shop-name">Pilot Punch</div>
+          <div class="shop-variant">Ø 5mm × 60mm · HSS M2</div>
+          <div class="shop-price">₹ 00.00</div>
+          <button class="shop-add">Add to Enquiry</button>
+        </div>
+      </div>
+
+      <div class="shop-card fade-up">
+        <div class="shop-img">📏</div>
+        <div class="shop-body">
+          <div class="shop-name">Dowel Pin</div>
+          <div class="shop-variant">Ø 6mm × 40mm · HSS h6</div>
+          <div class="shop-price">₹ 00.00</div>
+          <button class="shop-add">Add to Enquiry</button>
+        </div>
+      </div>
+
+      <div class="shop-card fade-up">
+        <div class="shop-img">📏</div>
+        <div class="shop-body">
+          <div class="shop-name">Dowel Pin</div>
+          <div class="shop-variant">Ø 10mm × 60mm · HSS h6</div>
+          <div class="shop-price">₹ 00.00</div>
+          <button class="shop-add">Add to Enquiry</button>
+        </div>
+      </div>
+
+      <div class="shop-card fade-up">
+        <div class="shop-img">⚡</div>
+        <div class="shop-body">
+          <div class="shop-name">Blanking Punch</div>
+          <div class="shop-variant">Ø 8mm · M2 · TiN Coated</div>
+          <div class="shop-price">₹ 00.00</div>
+          <button class="shop-add">Add to Enquiry</button>
+        </div>
+      </div>
+
+      <div class="shop-card fade-up">
+        <div class="shop-img">🔩</div>
+        <div class="shop-body">
+          <div class="shop-name">Shoulder Punch</div>
+          <div class="shop-variant">Ø 4mm head · M35</div>
+          <div class="shop-price">₹ 00.00</div>
+          <button class="shop-add">Add to Enquiry</button>
+        </div>
+      </div>
+
+      <div class="shop-card fade-up">
+        <div class="shop-img">⚡</div>
+        <div class="shop-body">
+          <div class="shop-name">Blanking Punch</div>
+          <div class="shop-variant">Ø 12mm · M35 · Ground</div>
+          <div class="shop-price">₹ 00.00</div>
+          <button class="shop-add">Add to Enquiry</button>
+        </div>
+      </div>
+
+      <div class="shop-card fade-up">
+        <div class="shop-img">📏</div>
+        <div class="shop-body">
+          <div class="shop-name">Dowel Pin</div>
+          <div class="shop-variant">Ø 4mm × 30mm · h5</div>
+          <div class="shop-price">₹ 00.00</div>
+          <button class="shop-add">Add to Enquiry</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════
+     QUOTE / CONTACT
+════════════════════════════════ -->
+<section id="quote">
+  <div class="section-inner">
+    <div class="fade-up" style="margin-bottom:3rem;">
+      <div class="section-tag">Get In Touch</div>
+      <h2>REQUEST A QUOTE</h2>
+      <div class="divider"></div>
+    </div>
+    <div class="quote-grid">
+      <div class="fade-up">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Your Name</label>
+            <input type="text" placeholder="Full Name" />
+          </div>
+          <div class="form-group">
+            <label>Company</label>
+            <input type="text" placeholder="Company Name" />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" placeholder="email@example.com" />
+          </div>
+          <div class="form-group">
+            <label>Phone</label>
+            <input type="tel" placeholder="+91 00000 00000" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Product Required</label>
+          <select>
+            <!-- ✏️ EDIT: your product list -->
+            <option>Select a product...</option>
+            <option>Pilot Punch</option>
+            <option>Blanking Punch</option>
+            <option>Forming Punch</option>
+            <option>Shoulder Punch</option>
+            <option>Special / Custom Punch</option>
+            <option>Dowel Pin</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Diameter (mm)</label>
+            <input type="text" placeholder="e.g. 5.5" />
+          </div>
+          <div class="form-group">
+            <label>Quantity</label>
+            <input type="number" placeholder="e.g. 50" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Additional Requirements</label>
+          <textarea placeholder="Material grade, coating, tolerance, drawing reference, delivery date, etc."></textarea>
+        </div>
+        <button class="btn-primary" style="width:100%;justify-content:center;">Send Enquiry →</button>
+      </div>
+      <div class="quote-info fade-up">
+        <!-- ✏️ EDIT ALL contact details below -->
+        <div class="info-card">
+          <div class="info-icon">📍</div>
+          <div>
+            <div class="info-title">Our Address</div>
+            <div class="info-text"> Khandelwal Estate, Upvan, Thane West - 400606 <br>Maharashtra, India</div>
+          </div>
+        </div>
+        <div class="info-card">
+          <div class="info-icon">📞</div>
+          <div>
+            <div class="info-title">Call / WhatsApp</div>
+            <div class="info-text"><a href="tel:+91 81085 17130">+91 81085 17130</a></div>
+          </div>
+        </div>
+        <div class="info-card">
+          <div class="info-icon">✉️</div>
+          <div>
+            <div class="info-title">Email Us</div>
+            <div class="info-text"><a href="mailto:secopunches@hotmail.com">secopunches@hotmail.com</a></div>
+          </div>
+        </div>
+        <div class="info-card">
+          <div class="info-icon">🕐</div>
+          <div>
+            <div class="info-title">Working Hours</div>
+            <div class="info-text">Monday – Sunday: 10:00 AM – 6:00 PM<br>FRIDAY CLOSED</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════
+     FOOTER
+════════════════════════════════ -->
+<footer>
+  <div class="footer-logo">SECO PUNCHES</div> 
+  <div class="footer-links">
+    <a href="#about">About</a>
+    <a href="#products">Products</a>
+    <a href="#shop">Shop</a>
+    <a href="#quote">Contact</a>
+  </div>
+  <div class="footer-copy">© 2025 Company Name. All rights reserved.</div> <!-- ✏️ EDIT -->
+</footer>
+
+
+<script>
+  // ── Scroll fade-in animation ──
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(el => {
+      if (el.isIntersecting) {
+        el.target.classList.add('visible');
+        // stagger siblings
+        const siblings = el.target.parentElement.querySelectorAll('.fade-up');
+        siblings.forEach((s, i) => {
+          setTimeout(() => s.classList.add('visible'), i * 100);
+        });
+      }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+  // ── Shop button feedback ──
+  document.querySelectorAll('.shop-add').forEach(btn => {
+    btn.addEventListener('click', () => {
+      btn.textContent = '✓ Added';
+      btn.style.background = 'var(--accent)';
+      btn.style.color = 'var(--dark)';
+      btn.style.borderColor = 'var(--accent)';
+      setTimeout(() => {
+        btn.textContent = 'Add to Enquiry';
+        btn.style.background = '';
+        btn.style.color = '';
+        btn.style.borderColor = '';
+      }, 1800);
+    });
+  });
+
+  // ── Smooth nav highlight ──
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-links a');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => {
+      if (window.scrollY >= s.offsetTop - 100) current = s.getAttribute('id');
+    });
+    navLinks.forEach(a => {
+      a.style.color = a.getAttribute('href') === '#' + current ? 'var(--accent)' : '';
+    });
+  });
+</script>
+</body>
+</html>
+
+
+
